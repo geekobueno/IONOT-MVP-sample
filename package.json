@@ -1,0 +1,30 @@
+{
+  "name": "ionot-mvp-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geekobueno/IONOT-MVP-sample.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geekobueno/IONOT-MVP-sample/issues"
+  },
+  "homepage": "https://github.com/geekobueno/IONOT-MVP-sample#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
