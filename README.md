@@ -1,6 +1,6 @@
 # Training Management Platform Backend  
 
-This repository contains the backend implementation for a **Training Management Platform**. The platform facilitates project assignment, progress tracking, and administrative monitoring to streamline candidate training and performance evaluation.  
+This repository contains the  implementation for a **Training Management Platform**. The platform facilitates project assignment, progress tracking, and administrative monitoring to streamline candidate training and performance evaluation.  
 
 ## **Features**  
 ### **1. Project Management**  
@@ -54,3 +54,24 @@ This repository contains the backend implementation for a **Training Management 
    ```bash
    git clone <repository-url>
    cd <repository-directory>
+
+2. Install dependencies:  
+   ```bash
+   npm install
+
+3. Set up environment variables:  
+    Create a .env file in the root directory.
+    Add the following variables:
+   ```bash
+   PORT=5000  
+   MONGO_URI=<your-mongodb-connection-string>  
+
+### **Running the Backend**  
+
+1. Start the server:  
+   ```bash
+   npm start
+
+2. Access the API at http://localhost:5000.  
+
+
