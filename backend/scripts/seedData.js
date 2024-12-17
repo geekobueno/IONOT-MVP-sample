@@ -1,84 +1,113 @@
-// scripts/seedData.js
 const mongoose = require('mongoose');
-const Candidate = require('../src/models/Candidate');
-const Project = require('../src/models/Project');
-const Progress = require('../src/models/Progress');
-const path = require('path');
-require('dotenv').config({ 
-  path: path.resolve(__dirname, '../.env') 
-});
-const seedDatabase = async () => {
+const { Candidate } = require('../src/models/Candidate');
+const { Admin } = require('../src/models/Admin');
+const { Progress } = require('../src/models/Progress');
+const { Project } = require('../src/models/Project');
 
-  console.log('MONGODB_URI:', process.env.MONGODB_URI);
+require('dotenv').config();
 
-  if (!process.env.MONGODB_URI) {
-    console.error('MongoDB URI is not defined. Check your .env file.');
-    process.exit(1);
-  }
-
+// Seed Data
+const seedData = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/training-platform', {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true
     });
 
     // Clear existing data
     await Candidate.deleteMany({});
     await Project.deleteMany({});
     await Progress.deleteMany({});
+    await Admin.deleteMany({});
 
-    // Create sample candidates
-    const candidates = await Candidate.create([
-      { name: 'John Doe', email: 'john@example.com' },
-      { name: 'Jane Smith', email: 'jane@example.com' },
-      { name: 'Mike Johnson', email: 'mike@example.com' }
-    ]);
+    // Create Admin
+    const admin = new Admin({
+      username: 'admin',
+      password: 'adminpassword'
+    });
+    await admin.save();
 
-    // Create sample projects
-    const projects = await Project.create([
+    // Create Sample Projects
+    const projects = [
       {
-        title: 'Web Development Basics',
-        description: 'Create a simple responsive website',
-        difficulty: 'Beginner',
-        status: 'Pending'
+        title: 'React Todo App',
+        description: 'Build a full-featured todo application using React',
+        difficultyLevel: 'Beginner',
+        pointsWorth: 50
       },
       {
-        title: 'Advanced React Application',
-        description: 'Build a complex React application with state management',
-        difficulty: 'Advanced',
-        status: 'Pending'
+        title: 'Express REST API',
+        description: 'Create a RESTful API with Express and MongoDB',
+        difficultyLevel: 'Intermediate',
+        pointsWorth: 75
       },
       {
-        title: 'Backend API Development',
-        description: 'Create a RESTful API with authentication',
-        difficulty: 'Intermediate',
-        status: 'Pending'
+        title: 'Full-stack E-commerce Platform',
+        description: 'Develop a complete e-commerce website with payment integration',
+        difficultyLevel: 'Advanced',
+        pointsWorth: 100
+      },
+      {
+        title: 'Machine Learning Recommender',
+        description: 'Build a recommendation system using Python and scikit-learn',
+        difficultyLevel: 'Advanced',
+        pointsWorth: 125
       }
-    ]);
+    ];
+    const savedProjects = await Project.insertMany(projects);
 
-    // Create some progress records
-    await Progress.create([
+    // Create Sample Candidates
+    const candidates = [
       {
-        candidate: candidates[0]._id,
-        project: projects[0]._id,
-        percentComplete: 50,
-        score: 75
+        name: 'John Doe',
+        email: 'john@example.com',
+        password: 'password123',
+        points: 0
       },
       {
-        candidate: candidates[1]._id,
-        project: projects[1]._id,
-        percentComplete: 25,
-        score: 60
+        name: 'Jane Smith',
+        email: 'jane@example.com',
+        password: 'password456',
+        points: 0
+      },
+      {
+        name: 'Mike Johnson',
+        email: 'mike@example.com',
+        password: 'password789',
+        points: 0
       }
-    ]);
+    ];
+    const savedCandidates = await Candidate.insertMany(candidates);
 
-    console.log('Database seeded successfully');
-    process.exit(0);
+    // Create Sample Progress Entries (optional)
+    const progresses = [
+      {
+        candidate: savedCandidates[0]._id,
+        project: savedProjects[0]._id,
+        githubLink: 'https://github.com/johndoe/todo-app',
+        completionPercentage: 30,
+        status: 'In Progress'
+      },
+      {
+        candidate: savedCandidates[1]._id,
+        project: savedProjects[1]._id,
+        githubLink: 'https://github.com/janesmith/rest-api',
+        completionPercentage: 60,
+        status: 'In Progress'
+      }
+    ];
+    await Progress.insertMany(progresses);
+
+    console.log('Database seeded successfully!');
+    
+    // Close the connection
+    await mongoose.connection.close();
   } catch (error) {
     console.error('Error seeding database:', error);
     process.exit(1);
   }
 };
 
-seedDatabase();
+// Run the seeding script
+seedData();
