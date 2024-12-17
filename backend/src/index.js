@@ -8,11 +8,11 @@ const connectDB = require('./config/database');
 
 
 // Import Routes
-const authRoutes = require('../routes/authRoutes');
-const candidateRoutes = require('../routes/candidateRoutes');
-const adminRoutes = require('../routes/adminRoutes');
-const projectRoutes = require('../routes/projectRoutes');
-const progressRoutes = require('../routes/progressRoutes');
+const authRoutes = require('./routes/authRoutes');
+const candidateRoutes = require('./routes/candidatesRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const projectRoutes = require('./routes/projectRoutes');
+const progressRoutes = require('./routes/progressRoutes');
 
 //connect to db
 connectDB();

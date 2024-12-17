@@ -3,14 +3,17 @@ const { Candidate } = require('../src/models/Candidate');
 const { Admin } = require('../src/models/Admin');
 const { Progress } = require('../src/models/Progress');
 const { Project } = require('../src/models/Project');
+require('dotenv').config({ path: '../.env' });
+
 
 require('dotenv').config();
 
 // Seed Data
 const seedData = async () => {
+  console.log(process.env.MONGODB_URI)
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/training-platform', {
+    await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });

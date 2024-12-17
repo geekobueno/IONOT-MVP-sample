@@ -1,5 +1,7 @@
 const express = require('express');
-const { Candidate, Project, Progress } = require('../models');
+const { Candidate } = require('../models/Candidate');
+const { Progress } = require('../models/Progress');
+const { Project } = require('../models/Project');
 const { adminAuth } = require('../middleware/authMiddleware');
 
 const router = express.Router();
