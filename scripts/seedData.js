@@ -3,9 +3,19 @@ const mongoose = require('mongoose');
 const Candidate = require('../src/models/Candidate');
 const Project = require('../src/models/Project');
 const Progress = require('../src/models/Progress');
-require('dotenv').config({ path: '../.env' });
-
+const path = require('path');
+require('dotenv').config({ 
+  path: path.resolve(__dirname, '../.env') 
+});
 const seedDatabase = async () => {
+
+  console.log('MONGODB_URI:', process.env.MONGODB_URI);
+
+  if (!process.env.MONGODB_URI) {
+    console.error('MongoDB URI is not defined. Check your .env file.');
+    process.exit(1);
+  }
+
   try {
     // Connect to MongoDB
     await mongoose.connect(process.env.MONGODB_URI, {
